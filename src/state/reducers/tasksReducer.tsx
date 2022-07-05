@@ -1,13 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
 import taskInterface from "../../Interfaces/taskInterface";
 import { actionType, actionEnum } from "../../Interfaces/tasksActions";
+import { projectsInitialState } from './projectsReducer';
 
 const initialState: taskInterface[] = [{
     id: uuidv4(),
     name: "Your first task!",
     isDone: false,
     isPriority: true,
-    project: uuidv4()
+    project: projectsInitialState[0].id
 }]
 
 const tasksReducer = (state: taskInterface[] = initialState, action: actionType) => {

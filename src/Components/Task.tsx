@@ -1,5 +1,7 @@
 import { InputGroup, ListGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import taskInterface from '../Interfaces/taskInterface';
+import { useDispatch, useSelector } from 'react-redux';
+import { actionCreators, State } from '../state';
 
 interface taskComponentInterface {
     task: taskInterface
@@ -9,6 +11,12 @@ interface taskComponentInterface {
 function Task(props: taskComponentInterface) {
 
     const { task } = props;
+
+    const projects = useSelector((state: State) => state.projects)
+
+    const project = projects.find(project => {
+        return project.id === task.project
+    })
 
     return (
         <ListGroup.Item
@@ -20,7 +28,7 @@ function Task(props: taskComponentInterface) {
             </div>
             <div className="ms-2 me-auto">
                 <div className="fw-bold">{task.name}</div>
-                {task.project}
+                <p style={{ color: `${project?.color}` }}>{project && project.name}</p>
             </div>
             <InputGroup.Radio className="className='my-auto'" aria-label="Radio button for following text input" />
             <DropdownButton

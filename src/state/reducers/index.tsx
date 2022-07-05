@@ -1,15 +1,17 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import taskInterface from "../../Interfaces/taskInterface";
 import tasksReducer from "./tasksReducer";
+import projectsReducer from "./projectsReducer";
+import projectInterface from "../../Interfaces/projectInterface";
 
 const reducers = combineReducers({
     tasks: tasksReducer,
+    projects: projectsReducer
 });
 
 export default reducers;
 
-// export type State = ReturnType<typeof reducers>
-
 export interface State {
-    tasks: taskInterface[]
+    tasks: taskInterface[],
+    projects: projectInterface[]
 }
