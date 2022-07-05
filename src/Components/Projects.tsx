@@ -16,12 +16,17 @@ function Projects() {
     const [projectColor, setProjectColor] = useState("#000000");
 
     const tryAddNewProject = (e: React.SyntheticEvent | undefined) => {
-        e && e.preventDefault()
+        e && e.preventDefault();
+
+        if (!projectName || !projectColor) return;
+
         addNewProject({
             id: uuidv4(),
             name: projectName,
             color: projectColor
         })
+        setProjectName("");
+        setProjectColor("#000000");
     }
 
     return (

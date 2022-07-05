@@ -35,6 +35,8 @@ function Tasks() {
 
     console.log(tasks);
 
+    const progres = (tasks.filter(task => task.isDone).length / tasks.length) * 100;
+
     return (
         <div className='d-flex flex-column gap-3'>
             <Form onSubmit={e => tryAddNewTask(e)}>
@@ -55,7 +57,7 @@ function Tasks() {
                     <InputGroup.Radio aria-label="Radio button for following text input" />
                 </InputGroup>
             </Form>
-            <ProgressBar now={60} />
+            <ProgressBar now={progres} />
             <ListGroup as="ul">
                 {
                     tasks.map((task) => {

@@ -18,7 +18,7 @@ const projectsReducer = (state: projectInterface[] = projectsInitialState, actio
         case actionEnum.ADDNEWPROJECT:
             return state = [...state, action.payload];
         case actionEnum.DELETEPROJECT:
-            return state.filter(task => task.id === action.payload);
+            return state.filter(task => task.id !== action.payload);
         default:
             return state;
     }

@@ -16,7 +16,7 @@ function Task(props: taskComponentInterface) {
     const dispatch = useDispatch();
     const projects = useSelector((state: State) => state.projects);
 
-    const { changeTaskDone } = bindActionCreators(actionCreators, dispatch);
+    const { changeTaskDone, deleteTask } = bindActionCreators(actionCreators, dispatch);
 
     const project = projects.find(project => {
         return project.id === task.project
@@ -41,11 +41,7 @@ function Task(props: taskComponentInterface) {
                 title=""
                 id="input-group-dropdown-1"
             >
-                <Dropdown.Item href="#">Action</Dropdown.Item>
-                <Dropdown.Item href="#">Another action</Dropdown.Item>
-                <Dropdown.Item href="#">Something else here</Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item href="#">Separated link</Dropdown.Item>
+                <Dropdown.Item onClick={() => deleteTask(task.id)}>Delete</Dropdown.Item>
             </DropdownButton>
         </ListGroup.Item>
     )

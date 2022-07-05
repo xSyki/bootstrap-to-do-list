@@ -1,3 +1,6 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from '@reduxjs/toolkit';
+import { actionCreators, State } from '../state';
 import { InputGroup, ListGroup, DropdownButton, Dropdown } from 'react-bootstrap';
 import projectInterface from "../Interfaces/projectInterface";
 
@@ -8,6 +11,10 @@ interface projectComponentInterface {
 function Project(props: projectComponentInterface) {
 
     const { project } = props;
+
+    const dispatch = useDispatch();
+
+    const { deleteProject } = bindActionCreators(actionCreators, dispatch);
 
     return (
         <div>
@@ -27,11 +34,7 @@ function Project(props: projectComponentInterface) {
                     title=""
                     id="input-group-dropdown-1"
                 >
-                    <Dropdown.Item href="#">Action</Dropdown.Item>
-                    <Dropdown.Item href="#">Another action</Dropdown.Item>
-                    <Dropdown.Item href="#">Something else here</Dropdown.Item>
-                    <Dropdown.Divider />
-                    <Dropdown.Item href="#">Separated link</Dropdown.Item>
+                    <Dropdown.Item onClick={() => deleteProject(project.id)}>Delete</Dropdown.Item>
                 </DropdownButton>
             </ListGroup.Item>
         </div>

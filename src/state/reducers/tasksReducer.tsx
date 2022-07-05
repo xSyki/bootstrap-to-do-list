@@ -16,7 +16,7 @@ const tasksReducer = (state: taskInterface[] = initialState, action: actionType)
         case actionEnum.ADDNEWTASK:
             return state = [...state, action.payload];
         case actionEnum.DELETETASK:
-            return state.filter(task => task.id === action.payload);
+            return state.filter(task => task.id !== action.payload);
         case actionEnum.CHANGEDONE:
             const tasks: taskInterface[] = JSON.parse(JSON.stringify(state));
             const task = tasks.find((task) => task.id === action.payload)
