@@ -1,14 +1,12 @@
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { useState } from 'react';
-import { InputGroup, Form, ProgressBar, ListGroup, Button, Dropdown, DropdownButton } from 'react-bootstrap';
+import { InputGroup, Form, ProgressBar, ListGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators, State } from '../state';
 import { v4 as uuidv4 } from 'uuid';
 import Task from './Task';
-import { stringify } from 'querystring';
 
 function Tasks() {
-
     const dispatch = useDispatch();
     const tasks = useSelector((state: State) => state.tasks);
     const projects = useSelector((state: State) => state.projects);
@@ -22,6 +20,8 @@ function Tasks() {
     const tryAddNewTask = (e: React.SyntheticEvent | undefined) => {
         e && e.preventDefault();
 
+        if (!taskName) return;
+
         addNewTask({
             id: uuidv4(),
             name: taskName,
@@ -32,6 +32,8 @@ function Tasks() {
         setTaskName("");
         setIsPriority(false);
     }
+
+    console.log(tasks);
 
     return (
         <div className='d-flex flex-column gap-3'>

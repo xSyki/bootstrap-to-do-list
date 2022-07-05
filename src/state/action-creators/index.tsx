@@ -22,10 +22,11 @@ export const deleteTask = (id: string) => {
     }
 }
 
-export const reset = () => {
+export const changeTaskDone = (id: string) => {
     return (dispatch: Dispatch<actionType>) => {
         dispatch({
-            type: actionEnum.RESET
+            type: actionEnum.CHANGEDONE,
+            payload: id
         })
     }
 }
