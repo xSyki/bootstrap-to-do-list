@@ -67,20 +67,22 @@ function Task(props: taskComponentInterface) {
     return (
         <ListGroup.Item
             as="li"
-            className="d-flex justify-content-between align-items-start"
+            className="d-flex justify-content-between align-items-center"
             id={task.id}
         >
             <div className="my-auto">
-                <InputGroup.Checkbox checked={task.isDone} onChange={() => changeTaskDone(task.id)} aria-label="Checkbox for following text input" />
+                <InputGroup.Checkbox checked={task.isDone} onChange={() => changeTaskDone(task.id)} />
             </div>
             <div className="ms-2 me-auto" >
                 {
                     isNameEditing ?
                         <Form onSubmit={changeName}>
-                            <Form.Control aria-label="Text input with radio button" value={temporaryName} onChange={e => setTemporaryName(e.target.value)} />
+                            <Form.Control value={temporaryName} onChange={e => setTemporaryName(e.target.value)} />
                         </Form>
                         :
-                        <div className="fw-bold" onClick={handleNameDC}>{task.name}</div>
+                        <div className="fw-bold" onClick={handleNameDC}>
+                            {task.name}
+                        </div>
                 }
                 {
                     isProjectEditing ?
@@ -88,8 +90,11 @@ function Task(props: taskComponentInterface) {
                             <select defaultValue={task.project} onChange={(e) => changeProject(e.target.value)} className="custom-select">
                                 {
                                     projects.map(project => {
+                                        if (project.isDone) return;
                                         return (
-                                            <option key={project.id} value={project.id}>{project.name}</option>
+                                            <option key={project.id} value={project.id}>
+                                                {project.name}
+                                            </option>
                                         )
                                     })
                                 }
@@ -97,10 +102,12 @@ function Task(props: taskComponentInterface) {
                             <CloseButton onClick={() => setIsProjectEditing(false)} />
                         </>
                         :
-                        <p style={{ color: `${project?.color}` }} onClick={handleProjectDC}>{project && project.name}</p>
+                        <div style={{ color: `${project?.color}` }} onClick={handleProjectDC}>
+                            {project && project.name}
+                        </div>
                 }
             </div>
-            <InputGroup.Radio checked={task.isPriority} onClick={() => changePriority(task.id)} className="className='my-auto'" aria-label="Radio button for following text input" />
+            <InputGroup.Radio checked={task.isPriority} onClick={() => changePriority(task.id)} />
             <DropdownButton
                 variant="outline-secondary"
                 title=""

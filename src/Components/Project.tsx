@@ -14,8 +14,10 @@ function Project(props: projectComponentInterface) {
     const { project } = props;
 
     const dispatch = useDispatch();
+    const tasks = useSelector((state: State) => state.tasks).filter(task => task.project === project.id);
 
-    const { deleteProject, editProject } = bindActionCreators(actionCreators, dispatch);
+    const { deleteProject, editProject, doneProject } = bindActionCreators(actionCreators, dispatch);
+    const { changeTaskDone } = bindActionCreators(actionCreators, dispatch);
 
     const [isNameEditing, setIsNameEditing] = useState(false);
     const [temporaryProjectName, setTemporaryProjectName] = useState(project.name);
@@ -24,7 +26,8 @@ function Project(props: projectComponentInterface) {
         editProject({
             id: project.id,
             name: project.name,
-            color
+            color,
+            isDone: project.isDone
         })
     }
 
@@ -38,10 +41,21 @@ function Project(props: projectComponentInterface) {
         editProject({
             id: project.id,
             name: temporaryProjectName,
-            color: project.color
+            color: project.color,
+            isDone: project.isDone
         })
 
         setIsNameEditing(false);
+    }
+
+    const handleProjectDone = () => {
+        if (!project.isDone) {
+            tasks.map(task => {
+                if (task.isDone) return;
+                changeTaskDone(task.id);
+            })
+        }
+        doneProject(project.id);
     }
 
     return (
@@ -51,21 +65,27 @@ function Project(props: projectComponentInterface) {
                 className="d-flex justify-content-between align-items-start"
             >
                 <div className="my-auto">
-                    <InputGroup.Checkbox aria-label="Checkbox for following text input" />
+                    <InputGroup.Checkbox checked={project.isDone} onClick={handleProjectDone} />
                 </div>
                 <div className="ms-2 me-auto">
                     {
                         isNameEditing ?
                             <Form onSubmit={editProjectName}>
-                                <Form.Control value={temporaryProjectName} onChange={(e) => setTemporaryProjectName(e.target.value)} aria-label="Text input with radio button" />
+                                <Form.Control value={temporaryProjectName} onChange={(e) => setTemporaryProjectName(e.target.value)} />
                             </Form>
                             :
-                            <div className="fw-bold" onClick={handleNameDC}>{project.name}</div>
+                            <>
+                                <div className="fw-bold" onClick={handleNameDC}>
+                                    {project.name}
+                                </div>
+                                <div>
+                                    Tasks: {tasks.length}
+                                </div>
+                            </>
                     }
                 </div>
                 <Form.Control
                     type="color"
-                    id="exampleColorInput"
                     value={project.color}
                     onChange={(e) => editProjectColor(e.target.value)}
                     title="Choose your color"
@@ -75,7 +95,9 @@ function Project(props: projectComponentInterface) {
                     title=""
                     id="input-group-dropdown-1"
                 >
-                    <Dropdown.Item onClick={() => deleteProject(project.id)}>Delete</Dropdown.Item>
+                    <Dropdown.Item onClick={() => deleteProject(project.id)}>
+                        Delete
+                    </Dropdown.Item>
                 </DropdownButton>
             </ListGroup.Item>
         </div>

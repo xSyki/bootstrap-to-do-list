@@ -23,7 +23,8 @@ function Projects() {
         addNewProject({
             id: uuidv4(),
             name: projectName,
-            color: projectColor
+            color: projectColor,
+            isDone: false
         })
         setProjectName("");
         setProjectColor("#000000");
@@ -32,14 +33,13 @@ function Projects() {
     return (
         <div>
             <Form onSubmit={e => tryAddNewProject(e)}>
-                <InputGroup>
-                    <Button variant="outline-secondary" id="button-addon1" onClick={tryAddNewProject}>
+                <InputGroup className="mb-3">
+                    <Button variant="outline-secondary" onClick={tryAddNewProject}>
                         +
                     </Button>
-                    <Form.Control value={projectName} onChange={(e) => setProjectName(e.target.value)} aria-label="Text input with radio button" />
+                    <Form.Control className='w-75' value={projectName} onChange={(e) => setProjectName(e.target.value)} />
                     <Form.Control
                         type="color"
-                        id="exampleColorInput"
                         defaultValue={projectColor}
                         value={projectColor}
                         onChange={(e) => setProjectColor(e.target.value)}

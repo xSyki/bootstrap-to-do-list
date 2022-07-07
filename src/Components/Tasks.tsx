@@ -15,7 +15,7 @@ function Tasks() {
 
     const [taskName, setTaskName] = useState("");
     const [isPriority, setIsPriority] = useState(false);
-    const [projectId, setProjectId] = useState(projects[0].id);
+    const [projectId, setProjectId] = useState(projects.filter(project => !project.isDone)[0].id);
 
     const tryAddNewTask = (e: React.SyntheticEvent | undefined) => {
         e && e.preventDefault();
@@ -41,20 +41,25 @@ function Tasks() {
         <div className='d-flex flex-column gap-3'>
             <Form onSubmit={e => tryAddNewTask(e)}>
                 <InputGroup>
-                    <Button variant="outline-secondary" id="button-addon1" onClick={tryAddNewTask}>
+                    <Button variant="outline-secondary" onClick={tryAddNewTask}>
                         +
                     </Button>
-                    <Form.Control aria-label="Text input with radio button" value={taskName} onChange={e => setTaskName(e.target.value)} />
-                    <select onChange={(e) => setProjectId(e.target.value)} className="custom-select">
+                    <Form.Control value={taskName} onChange={e => setTaskName(e.target.value)} className="w-50" />
+                    <Form.Select onChange={(e) => setProjectId(e.target.value)} className="custom-select">
                         {
                             projects.map(project => {
+                                if (project.isDone) return;
                                 return (
-                                    <option value={project.id}>{project.name}</option>
+                                    <option value={project.id}>
+                                        {project.name}
+                                    </option>
                                 )
                             })
                         }
-                    </select>
-                    <InputGroup.Radio checked={isPriority} onClick={() => setIsPriority(isPriority => !isPriority)} aria-label="Radio button for following text input" />
+                    </Form.Select>
+                    <div className='btn btn-outline-secondary' id="button-addon1" onClick={() => setIsPriority(isPriority => !isPriority)}>
+                        <Form.Check type="radio" checked={isPriority} />
+                    </div>
                 </InputGroup>
             </Form>
             <ProgressBar now={progres} />

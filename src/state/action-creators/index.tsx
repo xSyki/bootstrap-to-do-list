@@ -67,6 +67,15 @@ export const deleteProject = (id: string) => {
     }
 }
 
+export const doneProject = (id: string) => {
+    return (dispatch: Dispatch<projectsActionType>) => {
+        dispatch({
+            type: projectsActionEnum.DONEPROJECT,
+            payload: id
+        })
+    }
+}
+
 export const editProject = (project: projectInterface) => {
     return (dispatch: Dispatch<projectsActionType>) => {
         dispatch({

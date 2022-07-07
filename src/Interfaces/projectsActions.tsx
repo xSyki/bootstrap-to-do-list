@@ -3,6 +3,7 @@ import projectInterface from "./projectInterface";
 export enum actionEnum {
     ADDNEWPROJECT = "addNewProject",
     DELETEPROJECT = "deleteProject",
+    DONEPROJECT = "doneProject",
     EDITPROJECT = "editProject"
 }
 
@@ -16,9 +17,14 @@ interface deleteProjectAction {
     payload: string
 }
 
+interface doneProjectAction {
+    type: actionEnum.DONEPROJECT
+    payload: string
+}
+
 interface editProjectAction {
     type: actionEnum.EDITPROJECT
     payload: projectInterface
 }
 
-export type actionType = addNewProjectAction | deleteProjectAction | editProjectAction;
+export type actionType = addNewProjectAction | deleteProjectAction | editProjectAction | doneProjectAction;
