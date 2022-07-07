@@ -32,6 +32,16 @@ const tasksReducer = (state: taskInterface[] = initialState, action: actionType)
                 return 0;
             })
             return tasks;
+        case actionEnum.EDITTASK:
+            {
+                const tasks: taskInterface[] = JSON.parse(JSON.stringify(state));
+                let task = tasks.find(task => task.id === action.payload.id) || initialState[0];
+                if (task) {
+                    task.name = action.payload.name;
+                    task.project = action.payload.project;
+                }
+                return tasks;
+            }
         default:
             return state;
     }

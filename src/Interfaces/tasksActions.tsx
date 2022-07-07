@@ -3,7 +3,8 @@ import taskInterface from "./taskInterface";
 export enum actionEnum {
     ADDNEWTASK = "addNewTask",
     DELETETASK = "deleteTask",
-    CHANGEDONE = "changeDone"
+    CHANGEDONE = "changeDone",
+    EDITTASK = "editTask"
 }
 
 interface addNewTaskAction {
@@ -21,4 +22,9 @@ interface changeTaskDoneAction {
     payload: string
 }
 
-export type actionType = addNewTaskAction | deleteTaskAction | changeTaskDoneAction;
+interface editTask {
+    type: actionEnum.EDITTASK,
+    payload: taskInterface
+}
+
+export type actionType = addNewTaskAction | deleteTaskAction | changeTaskDoneAction | editTask;

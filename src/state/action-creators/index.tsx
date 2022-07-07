@@ -31,6 +31,15 @@ export const changeTaskDone = (id: string) => {
     }
 }
 
+export const editTask = (task: taskInterface) => {
+    return (dispatch: Dispatch<actionType>) => {
+        dispatch({
+            type: actionEnum.EDITTASK,
+            payload: task
+        })
+    }
+}
+
 export const addNewProject = (task: projectInterface) => {
     return (dispatch: Dispatch<projectsActionType>) => {
         dispatch({

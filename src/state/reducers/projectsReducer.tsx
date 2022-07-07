@@ -26,7 +26,6 @@ const projectsReducer = (state: projectInterface[] = projectsInitialState, actio
                 project.color = action.payload.color;
                 project.name = action.payload.name;
             }
-            console.log(projects);
             return projects;
         default:
             return state;
