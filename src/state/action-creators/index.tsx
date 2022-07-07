@@ -31,6 +31,15 @@ export const changeTaskDone = (id: string) => {
     }
 }
 
+export const changePriority = (id: string) => {
+    return (dispatch: Dispatch<actionType>) => {
+        dispatch({
+            type: actionEnum.CHANGEPRIORITY,
+            payload: id
+        })
+    }
+}
+
 export const editTask = (task: taskInterface) => {
     return (dispatch: Dispatch<actionType>) => {
         dispatch({

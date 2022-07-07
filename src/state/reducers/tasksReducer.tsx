@@ -32,6 +32,22 @@ const tasksReducer = (state: taskInterface[] = initialState, action: actionType)
                 return 0;
             })
             return tasks;
+        case actionEnum.CHANGEPRIORITY: {
+            const tasks: taskInterface[] = JSON.parse(JSON.stringify(state));
+            const task = tasks.find((task) => task.id === action.payload)
+            if (task) {
+                task.isPriority = !task.isPriority;
+            }
+            tasks.sort((a, b) => {
+                if (a.isPriority && b.isPriority) {
+                    return 0;
+                }
+                if (a.isPriority) return -1;
+                if (b.isPriority) return 1;
+                return 0;
+            })
+            return tasks;
+        }
         case actionEnum.EDITTASK:
             {
                 const tasks: taskInterface[] = JSON.parse(JSON.stringify(state));

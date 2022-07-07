@@ -17,7 +17,7 @@ function Task(props: taskComponentInterface) {
     const dispatch = useDispatch();
     const projects = useSelector((state: State) => state.projects);
 
-    const { changeTaskDone, deleteTask, editTask } = bindActionCreators(actionCreators, dispatch);
+    const { changeTaskDone, deleteTask, editTask, changePriority } = bindActionCreators(actionCreators, dispatch);
 
     const [isNameEditing, setIsNameEditing] = useState(false);
     const [temporaryName, setTemporaryName] = useState(task.name);
@@ -100,7 +100,7 @@ function Task(props: taskComponentInterface) {
                         <p style={{ color: `${project?.color}` }} onClick={handleProjectDC}>{project && project.name}</p>
                 }
             </div>
-            <InputGroup.Radio className="className='my-auto'" aria-label="Radio button for following text input" />
+            <InputGroup.Radio checked={task.isPriority} onClick={() => changePriority(task.id)} className="className='my-auto'" aria-label="Radio button for following text input" />
             <DropdownButton
                 variant="outline-secondary"
                 title=""

@@ -14,7 +14,7 @@ function Tasks() {
     const { addNewTask } = bindActionCreators(actionCreators, dispatch);
 
     const [taskName, setTaskName] = useState("");
-    const [priority, setIsPriority] = useState(false);
+    const [isPriority, setIsPriority] = useState(false);
     const [projectId, setProjectId] = useState(projects[0].id);
 
     const tryAddNewTask = (e: React.SyntheticEvent | undefined) => {
@@ -26,7 +26,7 @@ function Tasks() {
             id: uuidv4(),
             name: taskName,
             isDone: false,
-            isPriority: priority,
+            isPriority: isPriority,
             project: projectId
         });
         setTaskName("");
@@ -54,7 +54,7 @@ function Tasks() {
                             })
                         }
                     </select>
-                    <InputGroup.Radio aria-label="Radio button for following text input" />
+                    <InputGroup.Radio checked={isPriority} onClick={() => setIsPriority(isPriority => !isPriority)} aria-label="Radio button for following text input" />
                 </InputGroup>
             </Form>
             <ProgressBar now={progres} />

@@ -4,6 +4,7 @@ export enum actionEnum {
     ADDNEWTASK = "addNewTask",
     DELETETASK = "deleteTask",
     CHANGEDONE = "changeDone",
+    CHANGEPRIORITY = "changePriority",
     EDITTASK = "editTask"
 }
 
@@ -22,9 +23,14 @@ interface changeTaskDoneAction {
     payload: string
 }
 
+interface changeTaskPriorityAction {
+    type: actionEnum.CHANGEPRIORITY,
+    payload: string
+}
+
 interface editTask {
     type: actionEnum.EDITTASK,
     payload: taskInterface
 }
 
-export type actionType = addNewTaskAction | deleteTaskAction | changeTaskDoneAction | editTask;
+export type actionType = addNewTaskAction | deleteTaskAction | changeTaskDoneAction | changeTaskPriorityAction | editTask;
