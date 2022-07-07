@@ -18,7 +18,16 @@ const projectsReducer = (state: projectInterface[] = projectsInitialState, actio
         case actionEnum.ADDNEWPROJECT:
             return state = [...state, action.payload];
         case actionEnum.DELETEPROJECT:
-            return state.filter(task => task.id !== action.payload);
+            return state.filter(project => project.id !== action.payload);
+        case actionEnum.EDITPROJECT:
+            const projects: projectInterface[] = JSON.parse(JSON.stringify(state));
+            let project = projects.find(project => project.id === action.payload.id) || projectsInitialState[0];
+            if (project) {
+                project.color = action.payload.color;
+                project.name = action.payload.name;
+            }
+            console.log(projects);
+            return projects;
         default:
             return state;
     }

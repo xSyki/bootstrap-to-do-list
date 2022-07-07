@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators, State } from '../state';
-import { InputGroup, ListGroup, DropdownButton, Dropdown } from 'react-bootstrap';
+import { InputGroup, ListGroup, DropdownButton, Dropdown, Form } from 'react-bootstrap';
 import projectInterface from "../Interfaces/projectInterface";
+import { useState } from 'react';
 
 interface projectComponentInterface {
     project: projectInterface
@@ -14,7 +15,34 @@ function Project(props: projectComponentInterface) {
 
     const dispatch = useDispatch();
 
-    const { deleteProject } = bindActionCreators(actionCreators, dispatch);
+    const { deleteProject, editProject } = bindActionCreators(actionCreators, dispatch);
+
+    const [isNameEditing, setIsNameEditing] = useState(false);
+    const [temporaryProjectName, setTemporaryProjectName] = useState(project.name);
+
+    const editProjectColor = (color: string) => {
+        editProject({
+            id: project.id,
+            name: project.name,
+            color
+        })
+    }
+
+    const handleNameDC = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (e.detail === 2) {
+            setIsNameEditing(true);
+        }
+    }
+
+    const editProjectName = () => {
+        editProject({
+            id: project.id,
+            name: temporaryProjectName,
+            color: project.color
+        })
+
+        setIsNameEditing(false);
+    }
 
     return (
         <div>
@@ -26,9 +54,22 @@ function Project(props: projectComponentInterface) {
                     <InputGroup.Checkbox aria-label="Checkbox for following text input" />
                 </div>
                 <div className="ms-2 me-auto">
-                    <div style={{ color: `${project?.color}` }} className="fw-bold">{project.name}</div>
+                    {
+                        isNameEditing ?
+                            <Form onSubmit={editProjectName}>
+                                <Form.Control value={temporaryProjectName} onChange={(e) => setTemporaryProjectName(e.target.value)} aria-label="Text input with radio button" />
+                            </Form>
+                            :
+                            <div className="fw-bold" onClick={handleNameDC}>{project.name}</div>
+                    }
                 </div>
-                <InputGroup.Radio className="className='my-auto'" aria-label="Radio button for following text input" />
+                <Form.Control
+                    type="color"
+                    id="exampleColorInput"
+                    value={project.color}
+                    onChange={(e) => editProjectColor(e.target.value)}
+                    title="Choose your color"
+                />
                 <DropdownButton
                     variant="outline-secondary"
                     title=""

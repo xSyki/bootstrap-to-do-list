@@ -48,3 +48,12 @@ export const deleteProject = (id: string) => {
         })
     }
 }
+
+export const editProject = (project: projectInterface) => {
+    return (dispatch: Dispatch<projectsActionType>) => {
+        dispatch({
+            type: projectsActionEnum.EDITPROJECT,
+            payload: project
+        })
+    }
+}
