@@ -1,11 +1,14 @@
+import { useState, useEffect } from 'react';
+
 import { bindActionCreators } from '@reduxjs/toolkit';
-import { useState } from 'react';
-import { InputGroup, Form, ProgressBar, ListGroup, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators, State } from '../state';
+
+import { InputGroup, Form, ProgressBar, ListGroup, Button } from 'react-bootstrap';
+
 import { v4 as uuidv4 } from 'uuid';
+
 import Task from './Task';
-import { useEffect } from 'react';
 
 function Tasks() {
     const dispatch = useDispatch();
@@ -48,13 +51,13 @@ function Tasks() {
                         +
                     </Button>
                     <Form.Control value={taskName} onChange={e => setTaskName(e.target.value)} className="w-50" />
-                    <Form.Select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="custom-select">
+                    <Form.Select value={projectId} onChange={e => setProjectId(e.target.value)} className="custom-select">
                         <option value="">
                             Inbox
                         </option>
                         {
                             projects.map(project => {
-                                if (project.isDone) return;
+                                if (project.isDone) return null;
                                 return (
                                     <option key={project.id} value={project.id}>
                                         {project.name}
@@ -63,18 +66,16 @@ function Tasks() {
                             })
                         }
                     </Form.Select>
-                    <div className='btn btn-outline-secondary' id="button-addon1" onClick={() => setIsPriority(isPriority => !isPriority)}>
+                    <Button variant="outline-secondary" onClick={() => setIsPriority(isPriority => !isPriority)}>
                         <Form.Check type="radio" checked={isPriority} />
-                    </div>
+                    </Button>
                 </InputGroup>
             </Form>
             <ProgressBar now={progres} />
             <ListGroup as="ul">
                 {
                     tasks.map((task) => {
-                        return (
-                            <Task key={task.id} task={task} />
-                        )
+                        return <Task key={task.id} task={task} />
                     })
                 }
             </ListGroup>

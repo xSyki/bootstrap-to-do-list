@@ -1,13 +1,15 @@
+import { useState } from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators, State } from '../state';
-import { useDispatch, useSelector } from 'react-redux';
-import { InputGroup, Form, ListGroup, Button } from 'react-bootstrap';
-import Project from './Project';
-import { useState } from 'react';
+
 import { v4 as uuidv4 } from 'uuid';
 
-function Projects() {
+import { InputGroup, Form, ListGroup, Button } from 'react-bootstrap';
+import Project from './Project';
 
+function Projects() {
     const dispatch = useDispatch();
     const projects = useSelector((state: State) => state.projects);
     const { addNewProject } = bindActionCreators(actionCreators, dispatch);
@@ -27,23 +29,21 @@ function Projects() {
             isDone: false
         })
         setProjectName("");
-        setProjectColor("#000000");
     }
 
     return (
-        <div>
+        <div className='d-flex flex-column gap-3'>
             <Form onSubmit={e => tryAddNewProject(e)}>
-                <InputGroup className="mb-3">
+                <InputGroup>
                     <Button variant="outline-secondary" onClick={tryAddNewProject}>
                         +
                     </Button>
                     <Form.Control className='w-75' value={projectName} onChange={(e) => setProjectName(e.target.value)} />
                     <Form.Control
                         type="color"
-                        defaultValue={projectColor}
                         value={projectColor}
                         onChange={(e) => setProjectColor(e.target.value)}
-                        title="Choose your color"
+                        style={{ minWidth: "3rem", maxWidth: "3rem" }}
                     />
                 </InputGroup>
             </Form>

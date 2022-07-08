@@ -1,14 +1,15 @@
-import { InputGroup, ListGroup, DropdownButton, Dropdown, CloseButton, Form } from 'react-bootstrap';
+import { useState } from 'react';
 import taskInterface from '../Interfaces/taskInterface';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { bindActionCreators } from '@reduxjs/toolkit';
 import { actionCreators, State } from '../state';
-import { useEffect, useState } from 'react';
+
+import { InputGroup, ListGroup, DropdownButton, Dropdown, CloseButton, Form } from 'react-bootstrap';
 
 interface taskComponentInterface {
     task: taskInterface
 }
-
 
 function Task(props: taskComponentInterface) {
 
@@ -21,7 +22,6 @@ function Task(props: taskComponentInterface) {
 
     const [isNameEditing, setIsNameEditing] = useState(false);
     const [temporaryName, setTemporaryName] = useState(task.name);
-
     const [isProjectEditing, setIsProjectEditing] = useState(false);
 
     const project = projects.find(project => {
@@ -68,11 +68,8 @@ function Task(props: taskComponentInterface) {
         <ListGroup.Item
             as="li"
             className="d-flex justify-content-between align-items-center"
-            id={task.id}
         >
-            <div className="my-auto">
-                <InputGroup.Checkbox checked={task.isDone} onChange={() => changeTaskDone(task.id)} />
-            </div>
+            <InputGroup.Checkbox checked={task.isDone} onChange={() => changeTaskDone(task.id)} />
             <div className="ms-2 me-auto" >
                 {
                     isNameEditing ?
@@ -86,14 +83,14 @@ function Task(props: taskComponentInterface) {
                 }
                 {
                     isProjectEditing ?
-                        <>
-                            <select defaultValue={task.project} onChange={(e) => changeProject(e.target.value)} className="custom-select">
+                        <div className='d-flex flex-row align-items-center gap-1'>
+                            <Form.Select defaultValue={task.project} onChange={(e) => changeProject(e.target.value)} size="sm">
                                 <option value="">
                                     Inbox
                                 </option>
                                 {
                                     projects.map(project => {
-                                        if (project.isDone) return;
+                                        if (project.isDone) return null;
                                         return (
                                             <option key={project.id} value={project.id}>
                                                 {project.name}
@@ -101,9 +98,9 @@ function Task(props: taskComponentInterface) {
                                         )
                                     })
                                 }
-                            </select>
+                            </Form.Select>
                             <CloseButton onClick={() => setIsProjectEditing(false)} />
-                        </>
+                        </div>
                         :
                         <div style={{ color: `${project?.color}` }} onClick={handleProjectDC}>
                             {project ? project.name : "Inbox"}
