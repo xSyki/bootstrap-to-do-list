@@ -88,6 +88,9 @@ function Task(props: taskComponentInterface) {
                     isProjectEditing ?
                         <>
                             <select defaultValue={task.project} onChange={(e) => changeProject(e.target.value)} className="custom-select">
+                                <option value="">
+                                    Inbox
+                                </option>
                                 {
                                     projects.map(project => {
                                         if (project.isDone) return;
@@ -103,7 +106,7 @@ function Task(props: taskComponentInterface) {
                         </>
                         :
                         <div style={{ color: `${project?.color}` }} onClick={handleProjectDC}>
-                            {project && project.name}
+                            {project ? project.name : "Inbox"}
                         </div>
                 }
             </div>
@@ -111,6 +114,7 @@ function Task(props: taskComponentInterface) {
             <DropdownButton
                 variant="outline-secondary"
                 title=""
+                className='ms-2'
                 id="input-group-dropdown-1"
             >
                 <Dropdown.Item onClick={() => deleteTask(task.id)}>Delete</Dropdown.Item>

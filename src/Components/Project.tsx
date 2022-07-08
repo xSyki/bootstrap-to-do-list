@@ -17,7 +17,7 @@ function Project(props: projectComponentInterface) {
     const tasks = useSelector((state: State) => state.tasks).filter(task => task.project === project.id);
 
     const { deleteProject, editProject, doneProject } = bindActionCreators(actionCreators, dispatch);
-    const { changeTaskDone } = bindActionCreators(actionCreators, dispatch);
+    const { changeTaskDone, deleteTask } = bindActionCreators(actionCreators, dispatch);
 
     const [isNameEditing, setIsNameEditing] = useState(false);
     const [temporaryProjectName, setTemporaryProjectName] = useState(project.name);
@@ -58,14 +58,22 @@ function Project(props: projectComponentInterface) {
         doneProject(project.id);
     }
 
+    const handleDeleteProject = () => {
+        tasks.map(task => {
+            if (task.isDone) return;
+            deleteTask(task.id);
+        })
+        deleteProject(project.id)
+    }
+
     return (
         <div>
             <ListGroup.Item
                 as="li"
-                className="d-flex justify-content-between align-items-start"
+                className="d-flex justify-content-between align-items-center"
             >
                 <div className="my-auto">
-                    <InputGroup.Checkbox checked={project.isDone} onClick={handleProjectDone} />
+                    <InputGroup.Checkbox checked={project.isDone} onChange={handleProjectDone} />
                 </div>
                 <div className="ms-2 me-auto">
                     {
@@ -93,9 +101,10 @@ function Project(props: projectComponentInterface) {
                 <DropdownButton
                     variant="outline-secondary"
                     title=""
+                    className='ms-2'
                     id="input-group-dropdown-1"
                 >
-                    <Dropdown.Item onClick={() => deleteProject(project.id)}>
+                    <Dropdown.Item onClick={handleDeleteProject}>
                         Delete
                     </Dropdown.Item>
                 </DropdownButton>

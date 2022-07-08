@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators, State } from '../state';
 import { v4 as uuidv4 } from 'uuid';
 import Task from './Task';
+import { useEffect } from 'react';
 
 function Tasks() {
     const dispatch = useDispatch();
@@ -15,7 +16,11 @@ function Tasks() {
 
     const [taskName, setTaskName] = useState("");
     const [isPriority, setIsPriority] = useState(false);
-    const [projectId, setProjectId] = useState(projects.filter(project => !project.isDone)[0].id);
+    const [projectId, setProjectId] = useState(projects.length ? projects.filter(project => !project.isDone)[0].id : "");
+
+    useEffect(() => {
+        setProjectId(projects.length ? projects.filter(project => !project.isDone)[0].id : "");
+    }, [projects])
 
     const tryAddNewTask = (e: React.SyntheticEvent | undefined) => {
         e && e.preventDefault();
@@ -33,8 +38,6 @@ function Tasks() {
         setIsPriority(false);
     }
 
-    console.log(tasks);
-
     const progres = (tasks.filter(task => task.isDone).length / tasks.length) * 100;
 
     return (
@@ -45,12 +48,15 @@ function Tasks() {
                         +
                     </Button>
                     <Form.Control value={taskName} onChange={e => setTaskName(e.target.value)} className="w-50" />
-                    <Form.Select onChange={(e) => setProjectId(e.target.value)} className="custom-select">
+                    <Form.Select value={projectId} onChange={(e) => setProjectId(e.target.value)} className="custom-select">
+                        <option value="">
+                            Inbox
+                        </option>
                         {
                             projects.map(project => {
                                 if (project.isDone) return;
                                 return (
-                                    <option value={project.id}>
+                                    <option key={project.id} value={project.id}>
                                         {project.name}
                                     </option>
                                 )
@@ -67,7 +73,7 @@ function Tasks() {
                 {
                     tasks.map((task) => {
                         return (
-                            <Task task={task} />
+                            <Task key={task.id} task={task} />
                         )
                     })
                 }

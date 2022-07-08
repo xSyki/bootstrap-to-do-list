@@ -50,7 +50,7 @@ function Projects() {
             <ListGroup as="ul">
                 {
                     projects.map(project => {
-                        return <Project project={project} />
+                        return <Project key={project.id} project={project} />
                     })
                 }
             </ListGroup>
